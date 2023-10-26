@@ -71,51 +71,6 @@ public class HttpSecurityConfig {
     }
 
     private static void buildRequestMatchers(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authReqConfig) {
-    /*
-    Autorización de endpoints de products
-     */
-        authReqConfig.requestMatchers(HttpMethod.GET, "/products")
-                .hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
-
-//        authReqConfig.requestMatchers(HttpMethod.GET, "/products/{productId}")
-        authReqConfig.requestMatchers(RegexRequestMatcher.regexMatcher(HttpMethod.GET, "/products/[0-9]*"))
-                .hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
-
-        authReqConfig.requestMatchers(HttpMethod.POST, "/products")
-                .hasRole(Role.ADMINISTRATOR.name());
-
-        authReqConfig.requestMatchers(HttpMethod.PUT, "/products/{productId}")
-                .hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
-
-        authReqConfig.requestMatchers(HttpMethod.PUT, "/products/{productId}/disabled")
-                .hasRole(Role.ADMINISTRATOR.name());
-
-                    /*
-                    Autorización de endpoints de categories
-                     */
-
-        authReqConfig.requestMatchers(HttpMethod.GET, "/categories")
-                .hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
-
-        authReqConfig.requestMatchers(HttpMethod.GET, "/categories/{categoryId}")
-                .hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
-
-        authReqConfig.requestMatchers(HttpMethod.POST, "/categories")
-                .hasRole(Role.ADMINISTRATOR.name());
-
-        authReqConfig.requestMatchers(HttpMethod.PUT, "/categories/{categoryId}")
-                .hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
-
-        authReqConfig.requestMatchers(HttpMethod.PUT, "/categories/{categoryId}/disabled")
-                .hasRole(Role.ADMINISTRATOR.name());
-
-        authReqConfig.requestMatchers(HttpMethod.GET, "/auth/profile")
-                .hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name(),
-                        Role.CUSTOMER.name());
-
-                    /*
-                    Autorización de endpoints públicos
-                     */
         authReqConfig.requestMatchers(HttpMethod.POST, "/customers").permitAll();
         authReqConfig.requestMatchers(HttpMethod.POST, "/auth/authenticate").permitAll();
         authReqConfig.requestMatchers(HttpMethod.GET, "/auth/validate-token").permitAll();
