@@ -16,6 +16,7 @@ jobs:
     - name: Configurar Java y Docker
       uses: actions/setup-java@v2
       with:
+        distribution: 'adopt'
         java-version: 17
 
     - name: Construir y empaquetar la aplicación Spring Boot con Docker
