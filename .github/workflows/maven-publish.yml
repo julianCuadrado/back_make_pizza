@@ -29,7 +29,7 @@ jobs:
       run: |
         # Aquí deberías agregar comandos para desplegar tus contenedores Docker
         # Puedes utilizar orquestadores como Docker Compose o Kubernetes, por ejemplo.
-        docker run -p 8080:8080 container_make_pizza
+        docker run -d -p 8080:9191 container_make_pizza
 
     - name: Fin del flujo de trabajo
       run: echo "Despliegue exitoso"
