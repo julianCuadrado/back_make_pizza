@@ -21,6 +21,7 @@ jobs:
 
     - name: Construir y empaquetar la aplicación Spring Boot con Docker
       run: |
+        chmod +x mvnw
         ./mvnw clean install -DskipTests
         docker build -t container_make_pizza .
 
