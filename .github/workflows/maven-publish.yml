@@ -1,0 +1,35 @@
+name: Despliegue de Spring Boot con Docker
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  despliegue:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout del código fuente
+      uses: actions/checkout@v2
+
+    - name: Configurar Java y Docker
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: 17
+
+    - name: Construir y empaquetar la aplicación Spring Boot con Docker
+      run: |
+        chmod +x mvnw
+        ./mvnw clean install -DskipTests
+        docker build -t container_make_pizza .
+
+    - name: Desplegar en entorno de producción con Docker
+      run: |
+        # Aquí deberías agregar comandos para desplegar tus contenedores Docker
+        # Puedes utilizar orquestadores como Docker Compose o Kubernetes, por ejemplo.
+        docker run -p 8080:8080 container_make_pizza
+
+    - name: Fin del flujo de trabajo
+      run: echo "Despliegue exitoso"
