@@ -43,4 +43,4 @@ jobs:
       - name: delete old container
         run: docker rm -f make_pizza_container
       - name: Run docker container
-        run: docker run -d -p 9191:9191 --name make_pizza_container 643434343434/make_pizza:latest
+        run: docker run -d -p 443:9191 --name make_pizza_container 643434343434/make_pizza:latest
