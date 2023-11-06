@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "orders")
-public class Order {
+public class UserOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,7 @@ public class Order {
     private LocalDateTime dateOrder;
     private Double longitude;
     private Double latitude;
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "userOrder", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ItemOrder> items = new ArrayList<>();
     private boolean enabled;
     @ManyToOne

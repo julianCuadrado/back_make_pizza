@@ -1,7 +1,7 @@
 package com.make.pizza.api.service.impl;
 
 import com.make.pizza.api.persistence.entity.ItemOrder;
-import com.make.pizza.api.persistence.entity.Order;
+import com.make.pizza.api.persistence.entity.UserOrder;
 import com.make.pizza.api.persistence.entity.User;
 import com.make.pizza.api.persistence.repository.OrderRepository;
 import com.make.pizza.api.service.OrderService;
@@ -21,25 +21,25 @@ public class OrderServiceImpl implements OrderService {
     private final AuthenticationService authenticationService;
 
     @Override
-    public void saveOrder(Order order) {
+    public void saveOrder(UserOrder userOrder) {
         User user = authenticationService.findLoggedInUser();
-        order.setUser(user);
-        order.setDateOrder(LocalDateTime.now());
-        order.setEnabled(true);
-        for (ItemOrder item : order.getItems()) {
-            item.setOrder(order);
+        userOrder.setUser(user);
+        userOrder.setDateOrder(LocalDateTime.now());
+        userOrder.setEnabled(true);
+        for (ItemOrder item : userOrder.getItems()) {
+            item.setUserOrder(userOrder);
         }
-        orderRepository.save(order);
+        orderRepository.save(userOrder);
     }
 
     @Override
-    public Order getCurrentOrder() {
+    public UserOrder getCurrentOrder() {
         User user = authenticationService.findLoggedInUser();
-        List<Order> orders = orderRepository.findByUserAndEnabledTrue(user.getId());
-        if(orders.isEmpty()) {
+        List<UserOrder> userOrders = orderRepository.findByUserAndEnabledTrue(user.getId());
+        if(userOrders.isEmpty()) {
             return null;
         }
-        return orders.get(0);
+        return userOrders.get(0);
     }
 
     @Transactional
