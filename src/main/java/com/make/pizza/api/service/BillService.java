@@ -12,4 +12,6 @@ public interface BillService {
     BillEntity save(OrderDTO order, PayPalOrderEntity payPalOrderEntity);
 
     List<BillDTO> getAllActive();
+
+    void desabledBill(Long id);
 }

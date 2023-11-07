@@ -11,6 +11,7 @@ import com.make.pizza.api.persistence.entity.User;
 import com.make.pizza.api.persistence.entity.pay.PayPalOrderEntity;
 import com.make.pizza.api.persistence.repository.BillRepository;
 import com.make.pizza.api.service.BillService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -41,6 +43,18 @@ public class BillServiceImpl implements BillService {
     public List<BillDTO> getAllActive() {
         List<BillEntity> entities = billRepository.getByStateTrue();
         return castBillEntityToDTO(entities);
+    }
+
+    @Transactional
+    @Override
+    public void desabledBill(Long id) {
+        Optional<BillEntity> optBill = billRepository.findById(id);
+        if(optBill.isEmpty()) {
+            throw new ObjectNotFoundException("La factura con id " + id + " no existe");
+        }
+        BillEntity entity = optBill.get();;
+        entity.setState(false);
+        billRepository.save(entity);
     }
 
     private List<BillDTO> castBillEntityToDTO(List<BillEntity> entities) {
