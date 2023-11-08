@@ -2,6 +2,7 @@ package com.make.pizza.api.service.impl;
 
 import com.make.pizza.api.dto.SaveUser;
 import com.make.pizza.api.exception.InvalidPasswordException;
+import com.make.pizza.api.exception.ObjectNotFoundException;
 import com.make.pizza.api.persistence.entity.User;
 import com.make.pizza.api.persistence.repository.UserRepository;
 import com.make.pizza.api.persistence.util.Role;
@@ -25,7 +26,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User registrOneCustomer(SaveUser newUser) {
         validatePassword(newUser);
-
+        Optional<User> opt = findOneByUsername(newUser.getUsername());
+        if(opt.isPresent()) {
+            throw new ObjectNotFoundException("El usuario ya existe.");
+        }
         User user = new User();
         user.setPassword(passwordEncoder.encode(newUser.getPassword()));
         user.setUsername(newUser.getUsername());
@@ -43,11 +47,11 @@ public class UserServiceImpl implements UserService {
     private void validatePassword(SaveUser dto) {
 
         if(!StringUtils.hasText(dto.getPassword()) || !StringUtils.hasText(dto.getRepeatedPassword())){
-            throw new InvalidPasswordException("Passwords don't match");
+            throw new InvalidPasswordException("Las contraseñas no coinciden.");
         }
 
         if(!dto.getPassword().equals(dto.getRepeatedPassword())){
-            throw new InvalidPasswordException("Passwords don't match");
+            throw new InvalidPasswordException("Las contraseñas no coinciden.");
         }
 
     }

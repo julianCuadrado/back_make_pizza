@@ -30,6 +30,32 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiError);
     }
 
+    @ExceptionHandler(InvalidPasswordException.class)
+    public ResponseEntity<?> handlerInvalidPasswordException(HttpServletRequest request, InvalidPasswordException exception){
+
+        ApiError apiError = new ApiError();
+        apiError.setBackendMessage(exception.getMessage());
+        apiError.setUrl(request.getRequestURL().toString());
+        apiError.setMethod(request.getMethod());
+        apiError.setMessage("Error en la petición enviada");
+        apiError.setTimestamp(LocalDateTime.now() );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+    }
+
+    @ExceptionHandler(ObjectNotFoundException.class)
+    public ResponseEntity<?> handlerObjectNotFoundException(HttpServletRequest request, ObjectNotFoundException exception){
+
+        ApiError apiError = new ApiError();
+        apiError.setBackendMessage(exception.getMessage());
+        apiError.setUrl(request.getRequestURL().toString());
+        apiError.setMethod(request.getMethod());
+        apiError.setMessage("Error en la petición enviada");
+        apiError.setTimestamp(LocalDateTime.now() );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+    }
+
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<?> handlerGenericBadCredentialsException(HttpServletRequest request, BadCredentialsException exception){
 

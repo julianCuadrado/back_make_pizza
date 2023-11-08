@@ -9,9 +9,9 @@ public class SaveUser implements Serializable {
     @Size(min = 4)
     private String name;
     private String username;
-    @Size(min = 8)
+    @Size(min = 5)
     private String password;
-    @Size(min = 8)
+    @Size(min = 5)
     private String repeatedPassword;
 
     public String getName() {
